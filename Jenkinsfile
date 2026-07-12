@@ -6,7 +6,7 @@ pipeline {
         SONARHOST: 'http://172.23.11.116:9000'
         TOKENSONAR: 'sqp_95ac749c2dc6a5ab5ba426b84d308dde47697ff0'
         VERSION: 'v1'
-        
+    }    
     stages {
         stage('Build') {
             steps {
