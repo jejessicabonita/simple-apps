@@ -48,7 +48,7 @@ pipeline {
                 sh '''
                 docker tag simple-apps-freestyle-apps jejessicabonita/simple-apps-freestyle-apps
                 docker push jejessicabonita/simple-apps-freestyle-apps
-                docker images prune -a -f
+                docker image prune -a -f
                 '''
             }
         }
