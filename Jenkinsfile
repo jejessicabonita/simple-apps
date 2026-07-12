@@ -26,8 +26,8 @@ pipeline {
                 sonar-scanner \
                 -Dsonar.projectKey=simple-apps \
                 -Dsonar.sources=. \
-                -Dsonar.host.url=http:$(SONARHOST) \
-                -Dsonar.TOKEN=$(TOKENSONAR)'''
+                -Dsonar.host.url=http:$SONARHOST \
+                -Dsonar.TOKEN=$TOKENSONAR'''
             }
         }
         stage('Deploy compose') {
