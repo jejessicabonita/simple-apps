@@ -1,41 +1,54 @@
 pipeline {
-    agent { label "dev01-esa" }
-    tools { nodejs "NodeJS-18.16.0" }
+    agent { label 'devops-jessica1' }
+    
+    tools {nodejs "NodeJS-18"}
 
     stages {
         stage('Build') {
             steps {
-                sh ''' npm install'''
+                sh '''
+                npm install'''
             }
         }
-        stage('Unit Testing') {
+        stage('Testing') {
             steps {
-                sh '''npm test'''
+                sh '''
+                npm test
+                npm run test:coverage'''
             }
         }
         stage('Code Review') {
             steps {
-                sh '''sonar-scanner \
+                sh '''
+                sonar-scanner \
                 -Dsonar.projectKey=simple-apps \
                 -Dsonar.sources=. \
-                -Dsonar.host.url=http://172.23.5.4:9000 \
-                -Dsonar.login=sqp_d54d727c34b1893ad1bcd1167e76b43e6dbb8b8a'''
+                -Dsonar.host.url=http://172.23.11.116:9000 \
+                -Dsonar.login=sqp_95ac749c2dc6a5ab5ba426b84d308dde47697ff0'''
             }
+        }
+      stage('Push NPM') {
+            steps {
+                sh '''
+                npm install
+                npm test
+                '''
+               }
         }
         stage('Deploy compose') {
             steps {
                 sh '''
-                docker compose build
-                docker compose up -d
+                docker compose -p simple-apps down
+                docker compose -p simple-apps up -d --build
                 '''
-            }
+               }
         }
-        stage('Push Image and Clean Image') {
+        stage('Tagging and Push to Registery Image') {
             steps {
                 sh '''
-                docker tag simple-apps-apps esanugraha/simple-apps-apps
-                docker push esanugraha/simple-apps-apps
-                docker image prune -a -f
+                docker tag simple-apps-freestyle-apps jejessicabonita/simple-apps-freestyle-apps
+                docker push jejessicabonita/simple-apps-freestyle-apps
+                docker images prune -a -f
                 '''
             }
         }
