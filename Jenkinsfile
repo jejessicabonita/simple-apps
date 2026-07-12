@@ -27,7 +27,7 @@ environment {
                 sonar-scanner \
                 -Dsonar.projectKey=simple-apps \
                 -Dsonar.sources=. \
-                -Dsonar.host.url=http:${SONARHOST} \
+                -Dsonar.host.url=${SONARHOST} \
                 -Dsonar.login=${TOKENSONAR}'''
             }
         }
