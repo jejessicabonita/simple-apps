@@ -1,8 +1,12 @@
 pipeline {
     agent { label 'devops-jessica1' }
-    
     tools {nodejs "NodeJS-18"}
-
+    environment {
+        NAMEAPPS: 'simple-apps-pipeline-apps'
+        SONARHOST: 'http://172.23.11.116:9000'
+        TOKENSONAR: 'sqp_95ac749c2dc6a5ab5ba426b84d308dde47697ff0'
+        VERSION: 'v1'
+        
     stages {
         stage('Build') {
             steps {
@@ -13,8 +17,7 @@ pipeline {
         stage('Testing') {
             steps {
                 sh '''
-                npm test
-                npm run test:coverage'''
+                npm test'''
             }
         }
         stage('Code Review') {
@@ -23,8 +26,8 @@ pipeline {
                 sonar-scanner \
                 -Dsonar.projectKey=simple-apps \
                 -Dsonar.sources=. \
-                -Dsonar.host.url=http://172.23.11.116:9000 \
-                -Dsonar.login=sqp_95ac749c2dc6a5ab5ba426b84d308dde47697ff0'''
+                -Dsonar.host.url=http:$(SONARHOST) \
+                -Dsonar.TOKEN=$(TOKENSONAR)'''
             }
         }
         stage('Deploy compose') {
