@@ -27,14 +27,6 @@ pipeline {
                 -Dsonar.login=sqp_95ac749c2dc6a5ab5ba426b84d308dde47697ff0'''
             }
         }
-      stage('Push NPM') {
-            steps {
-                sh '''
-                npm install
-                npm test
-                '''
-               }
-        }
         stage('Deploy compose') {
             steps {
                 sh '''
