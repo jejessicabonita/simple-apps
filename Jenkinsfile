@@ -34,8 +34,8 @@ environment {
         stage('Deploy compose') {
             steps {
                 sh '''
-                docker compose -p simple-apps down
-                docker compose -p simple-apps up -d --build
+                docker compose down
+                docker compose up -d
                 '''
                }
         }
