@@ -28,7 +28,7 @@ pipeline {
                 -Dsonar.projectKey=simple-apps \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=http:${SONARHOST} \
-                -Dsonar.TOKEN=${TOKENSONAR}'''
+                -Dsonar.login=${TOKENSONAR}'''
             }
         }
         stage('Deploy compose') {
@@ -42,8 +42,8 @@ pipeline {
         stage('Tagging and Push to Registery Image') {
             steps {
                 sh '''
-                docker tag simple-apps-freestyle-apps jejessicabonita/simple-apps-freestyle-apps
-                docker push jejessicabonita/simple-apps-freestyle-apps
+                docker tag ${NAMEAPPS} jejessicabonita/${NAMEAPPS}:${VERSION}
+                docker push jejessicabonita/${NAMEAPPS}:${VERSION}
                 docker image prune -a -f
                 '''
             }
